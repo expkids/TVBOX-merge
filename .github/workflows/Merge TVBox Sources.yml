@@ -1,15 +1,38 @@
-name: Merge Box Sources  # 工作流名称
+name: Merge TVBox Sources
 
-on:                     # 触发条件
-  push:                 # 当有代码推送时触发
-    paths:              # 只有这些路径变化时才触发
-      - '青龙面板版所用工具/service.json'
-      - 'merge_client.py'  # 脚本变更也触发
-  schedule:             # 定时触发
-    - cron: '0 0 * * *'  # 每天 UTC 时间 0 点执行
-  workflow_dispatch:    # 允许手动触发
+on:
+  push:
+    paths:
+      - '青龙面板版所用工具/source.json'
+      - 'merge_script.py'  # 脚本变更也触发
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
-jobs:                   # 定义任务
-  merge-sources:        # 任务名称
-    runs-on: ubuntu-latest  # 使用最新版 Ubuntu 运行环境
-    # （这里应该还有 steps 步骤，但你提供的 OCR 没包含）
+jobs:
+  merge-sources:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: pip install requests
+      
+    - name: Run merge script
+      run: python merge_script.py
+        
+    - name: Commit and push if changed
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git diff --staged --quiet || (git commit -m "🤖 Auto update TVBox sources" && git push)
