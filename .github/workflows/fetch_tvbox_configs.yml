@@ -27,4 +27,4 @@ jobs:
           REPO_NAME: ${{ secrets.REPO_NAME }}
           FILE_PATH:${{ secrets.FILE_PATH || 'source.txt' }}
         run: |
-          python fetch_tvbox_configs.py
+          python merge/fetch_tvbox_configs.py
