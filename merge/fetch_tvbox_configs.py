@@ -20,9 +20,7 @@ from datetime import datetime
 GITHUB_TOKEN = os.getenv("GH_TOKEN")  
 # 👤 你的 GitHub 用户名（已写死）
 GITHUB_USERNAME = 'leexuben'
-print(f"🔗 请求 URL: {url}")
-print(f"🔐 请求头: {headers}")
-print(f"⚠️ 响应状态码: {response.status_code}, 响应内容: {response.text}")
+
 
 # 📦 你的目标仓库名（已写死，格式仅为仓库名）
 REPO_NAME = 'TVBOX-merge'  # 注意：这里只是仓库名，不是 leexuben/TVBOX-merge
@@ -57,10 +55,12 @@ def search_github_code():
         if response.status_code != 200:
             print(f"❌ 搜索 '{keyword}' 失败：状态码 {response.status_code}, 响应：{response.text}")
             continue
-
+   
         data = response.json()
         items = data.get('items', [])
-
+        print(f"🔗 请求 URL: {url}")
+        print(f"🔐 请求头: {headers}")
+        print(f"⚠️ 响应状态码: {response.status_code}, 响应内容: {response.text}")
         print(f"✅ 找到 {len(items)} 个包含 '{keyword}' 的代码文件")
 
         for item in items:
