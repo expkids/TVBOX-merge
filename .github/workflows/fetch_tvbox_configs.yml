@@ -19,7 +19,7 @@ jobs:
       - name: 运行抓取脚本
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_USERNAME:${{ secrets.GITHUB_USERNAME }}
+          "GITHUB_USERNAME":"${{ secrets.GITHUB_USERNAME }}"
           REPO_NAME: ${{ secrets.REPO_NAME }}
           FILE_PATH:${{ secrets.FILE_PATH || 'source.txt' }}
         run: 
